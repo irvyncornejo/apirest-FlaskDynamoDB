@@ -3,7 +3,7 @@ import boto3
 import subprocess as sp
 from model import Models
 from extract import Scraper
-from time import sleep
+
 class Persistence:
     def __init__(self, dynamodb=None):
         if not dynamodb:
@@ -60,7 +60,7 @@ class Persistence:
 if __name__=='__main__':
     tables = Models().get_model_tables()
     db = Persistence()
-    db.delete_tables(['Shoes'])
+    #db.delete_tables(['Shoes'])
     db.create_tables(tables)
     db.insert_data_shoes()
     
