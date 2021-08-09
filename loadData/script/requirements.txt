@@ -1,5 +1,0 @@
-boto3
-requests
-beautifulsoup4
-numpy
-wget
