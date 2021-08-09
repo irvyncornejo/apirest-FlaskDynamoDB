@@ -1,0 +1,19 @@
+version: '3.2'
+
+services:
+  dynamodb-local:
+    command: "sudo chown user dynamodb -R && chmod 775 -R dynamodb"
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./"
+    image: "amazon/dynamodb-local:latest"
+    container_name: dynamodb-local
+    ports:
+      - "8000:8000"
+    volumes:
+      - "./docker/dynamodb:/home/dynamodblocal/data"
+    working_dir: /home/dynamodblocal
+  api:
+    build: .
+    ports:
+      - "8090:4000"
+    volumes:
+      - ".:/app"

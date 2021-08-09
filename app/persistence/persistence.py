@@ -2,12 +2,17 @@ import datetime
 import boto3
 from boto3.dynamodb.conditions import Key
 from datetime import datetime
+from botocore.config import Config
 
 class Persistence:
     def __init__(self, dynamodb=None):
         if not dynamodb:
-            self.dynamodb = boto3.client('dynamodb', endpoint_url='http://localhost:8000')
-            self.resource_db = boto3.resource('dynamodb', endpoint_url='http://localhost:8000')
+            my_config=Config(
+                region_name = 'us-west-2',
+                signature_version = 'v4',
+            )
+            self.dynamodb = boto3.client('dynamodb', region_name='us-west-2',aws_access_key_id='fake',aws_secret_access_key='fake',endpoint_url='http://dynamodb-local:8000')
+            self.resource_db = boto3.resource('dynamodb',  region_name='us-west-2',aws_access_key_id='fake',aws_secret_access_key='fake',endpoint_url='http://dynamodb-local:8000')
         self.table = lambda name: self.resource_db.Table(name)
 
     def get_shoes_categories(self):

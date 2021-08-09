@@ -3,22 +3,15 @@ from flask import request
 from flask import jsonify
 import json
 from services.service import Service
-
+from script.services.persistence import Persistence
 
 app = Flask(__name__)
 service = Service()
-""""
-- GET
-    /tenis
-    tenis/categoria
-    tenis/categoria/id
-    ---
-    /ordenes/user_id
 
--POST
-    ORDER
-
-"""
+@app.route('/')
+def hello():
+    Persistence().main()
+    return 'Flask funcionando'
 
 @app.route('/api/tenis')
 def get_categories():
@@ -45,4 +38,4 @@ def get_orders_user(user):
     response = service.get_orders_for_user(user)
     return response
 
-app.run(debug=True)
+app.run(host='0.0.0.0', port=4000, debug=True)
