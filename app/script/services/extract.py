@@ -26,7 +26,7 @@ class Scraper:
     def __get_data_shoe(self,shoes_type):
         try:
             shoes_link_href = self.__get_data_global_shoes(shoes_type)
-            for shoe_link in shoes_link_href[0:5]:
+            for shoe_link in shoes_link_href:
                 page_shoe = self.request(shoe_link)
                 soup_page_shoe = self.soup(page_shoe)
                 id_shoe = soup_page_shoe.find("meta", property="og:productId")['content']

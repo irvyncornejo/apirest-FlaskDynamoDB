@@ -1,14 +1,13 @@
 from requests.api import delete
 import boto3
 import subprocess as sp
-from ..services.model import Models
-from ..services.extract import Scraper
+from model import Models
+from extract import Scraper
 from time import sleep
 class Persistence:
-    def __init__(self, dynamodb=None):
-        if not dynamodb:
-            self.dynamodb = boto3.client('dynamodb', region_name='us-west-2',aws_access_key_id='fake',aws_secret_access_key='fake',endpoint_url='http://dynamodb-local:8000')
-            self.resource_db = boto3.resource('dynamodb', region_name='us-west-2',aws_access_key_id='fake',aws_secret_access_key='fake',endpoint_url='http://dynamodb-local:8000')
+    def __init__(self):
+        self.dynamodb = boto3.client('dynamodb')
+        self.resource_db = boto3.resource('dynamodb')
     
     def create_tables(self, tables):
         tables_name_dynamo = self.dynamodb.list_tables(ExclusiveStartTableName='string',Limit=10)['TableNames']
@@ -60,7 +59,7 @@ class Persistence:
     def main(self):
         tables = Models().get_model_tables()
         db = Persistence()
-        #db.delete_tables(['Shoes'])
-        db.create_tables(tables)
+        #db.create_tables(tables)
         db.insert_data_shoes()
     
+Persistence().main()
