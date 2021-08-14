@@ -4,15 +4,15 @@ import json
 class Service:
     def __init__(self):
         self.db = Persistence()
-
-    def get_data_categories(self, end_point='http://127.0.0.1:5000/api/tenis'):
+        self.end_point = 'http://127.0.0.1:5000/api/tenis/'
+    def get_data_categories(self):
         type_shoes = self.db.get_shoes_categories()
-        type_sub_rutes = {type_shoe: f'{end_point}/{type_shoe}' for type_shoe in type_shoes}
+        type_sub_rutes = {type_shoe: f'{self.end_point}/{type_shoe}' for type_shoe in type_shoes}
         return type_sub_rutes
     
     def get_data_shoes_for_categories(self, category):
         data_shoes = self.db.get_shoes(category)
-        [shoe.update({'canonicalProductURL': f'http://127.0.0.1:5000/api/tenis/{shoe["idShoe"]}'}) for shoe in data_shoes]
+        [shoe.update({'canonicalProductURL': f'{self.end_point}{shoe["idShoe"]}'}) for shoe in data_shoes]
         response = {
             'info': {
                 'count': str(len(data_shoes))
